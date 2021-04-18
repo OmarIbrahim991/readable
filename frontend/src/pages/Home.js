@@ -1,32 +1,37 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { handleLoadCategories } from '../actions/categories'
-import { handleLoadCurrentComments } from '../actions/comments'
-import { handleLoadPosts } from '../actions/posts'
+import { handleLoadInitialData } from '../actions/shared'
+import Loading from './Loading'
+import Post from '../components/Post'
+import Header from '../components/Header'
 
 
 const Home = () => {
 	const categories = useSelector(state => state.categories)
     const posts = useSelector(state => state.posts)
+    const loading = useSelector(state => state.loading)
 	const dispatch = useDispatch()
 
+    const [category, selectCategory] = React.useState("all")
+    const [order, selectOrder] = React.useState("datetime")
+
     React.useEffect(() => {
-		dispatch(handleLoadCategories())
-        dispatch(handleLoadPosts())
-        dispatch(handleLoadCurrentComments("8xf0y6ziyjabvozdd253nd"))
+        dispatch(handleLoadInitialData())
 	}, [dispatch])
 
-    const handleClick = () => {
-        dispatch(handleLoadCategories())
-        dispatch(handleLoadPosts())
-    }
+    if (loading) { return <Loading />}
     return(
-        <div>
-            <h1>Categories</h1>
-            <p>{JSON.stringify(categories)}</p>
-            <h1>Posts</h1>
-            <p>{JSON.stringify(posts)}</p>
-            <button onClick={handleClick}>Reload</button>
+        <div className="container">
+            <Header
+                category={category}
+                selectCategory={selectCategory}
+                order={order}
+                selectOrder={selectOrder}
+                categories={categories}
+            />
+            <ul className="vertical">
+                {posts.map(post => <Post key={post.id} {...post} />)}
+            </ul>
         </div>
     )
 }

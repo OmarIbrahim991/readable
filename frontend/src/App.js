@@ -1,18 +1,15 @@
 import React from 'react'
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
-import reducer from './reducers'
-import middleware from './middlewares'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Home from './pages/Home'
+import Posts from './pages/Posts'
 
-
-const store = createStore(reducer, middleware)
 
 const App = () => {
 	return (
-		<Provider store={store}>
-			<Home />
-		</Provider>
+		<Router>
+			<Route exact path="/" component={Home} />
+			<Route path="/posts" component={Posts} />
+		</Router>
 	)
 }
 
