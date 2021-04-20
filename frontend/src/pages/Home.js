@@ -4,6 +4,9 @@ import { handleLoadInitialData } from '../actions/shared'
 import Loading from './Loading'
 import Post from '../components/Post'
 import Header from '../components/Header'
+import NewPost from '../components/NewPost'
+import CreateButton from '../components/CreateButton'
+import NewComment from '../components/NewComment'
 
 
 const Home = () => {
@@ -13,11 +16,26 @@ const Home = () => {
 	const dispatch = useDispatch()
 
     const [category, selectCategory] = React.useState("all")
-    const [order, selectOrder] = React.useState("datetime")
+    const [order, selectOrder] = React.useState("timestamp")
+    const [newPostVisibility, setNewPostVisibility] = React.useState(false)
+    const [newCommentVisibility, setNewCommentVisibility] = React.useState(false)
+    const [currentId, setCurrentId] = React.useState("")
 
     React.useEffect(() => {
         dispatch(handleLoadInitialData())
 	}, [dispatch])
+
+    const sortedFilteredPosts = (() => {
+        let filtered
+        if (category && category !== "all") {
+            filtered = posts.filter(post => post.category === category)
+        }
+        else {
+            filtered = posts
+        }
+
+        return filtered.sort((a,b) => b[order] - a[order])
+    })()
 
     if (loading) { return <Loading />}
     return(
@@ -30,8 +48,21 @@ const Home = () => {
                 categories={categories}
             />
             <ul className="vertical">
-                {posts.map(post => <Post key={post.id} {...post} />)}
+                {
+                    sortedFilteredPosts.map((post) => (
+                        <Post
+                            key={post.id}
+                            setCurrentId={setCurrentId}
+                            newCommentVisibility={newCommentVisibility}
+                            setNewCommentVisibility={setNewCommentVisibility}
+                            {...post}
+                        />
+                    ))
+                }
             </ul>
+            <NewPost visible={newPostVisibility} setVisibility={setNewPostVisibility} categories={categories} />
+            <NewComment visible={newCommentVisibility} setVisibility={setNewCommentVisibility} parentId={currentId} />
+            <CreateButton style={{ display: newPostVisibility ? "none" : "block"}} onClick={() => setNewPostVisibility(s => !s)} />
         </div>
     )
 }

@@ -18,9 +18,9 @@ const Header = ({ categories, category, selectCategory, order, selectOrder }) =>
             <div>
                 <label htmlFor="sort-form">Order by: </label>
                 <select id="sort-form" value={order} onChange={e => selectOrder(e.target.value)}>
-                    <option value="datetime">DATETIME</option>
-                    <option value="upvotes">UPVOTES</option>
-                    <option value="comments">COMMENTS</option>
+                    <option value="timestamp">DATETIME</option>
+                    <option value="voteScore">UPVOTES</option>
+                    <option value="commentCount">COMMENTS</option>
                 </select>
             </div>
 

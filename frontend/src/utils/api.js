@@ -1,8 +1,6 @@
 const URL = "http://localhost:3001"
 
-const headers = { Authorization: "Bearer default" }
-
-const generateID = () => Math.random().toString(36).substr(-10) + Math.random().toString(36).substr(-10)
+const headers = { Authorization: "Bearer default", "Content-Type": "application/json" }
 
 export const get = (resource) => (
     fetch(URL + resource, { headers, })
@@ -10,6 +8,6 @@ export const get = (resource) => (
 )
 
 export const post = (resource, body) => (
-    fetch(URL + resource, { ...headers, method: "POST", body, })
+    fetch(URL + resource, { headers, method: "POST", body: JSON.stringify(body), })
     .then(response => response.json())
 )

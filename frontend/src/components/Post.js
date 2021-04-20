@@ -1,8 +1,20 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { AiOutlineMessage, AiOutlineUpCircle, AiOutlineDownCircle, AiOutlineStop } from 'react-icons/ai'
+import { handlePostVote } from '../actions/posts'
 
 
-const Post = ({ id, timestamp, title, body, author, category, voteScore, commentCount, deleted }) => {
+const Post = ({ id, timestamp, title, body, author, category, voteScore,
+    commentCount, deleted, setNewCommentVisibility, setCurrentId, }) => {
+
+    const dispatch = useDispatch()
+
+    const handleNewComment = () => {
+        setCurrentId && setCurrentId(id)
+        setNewCommentVisibility(true)
+    }
+
     if (deleted) {
         return (
             <div className="post">
@@ -14,23 +26,27 @@ const Post = ({ id, timestamp, title, body, author, category, voteScore, comment
 
     return (
         <div className="post">
-            <div className="post-header">
-                <h3>{title}</h3>
-                <p className="small faded cap">Topic: {category}</p>
-            </div>
-            <div className="post-content">
-                <p>{body}</p>
-                <p className="to-end small">Posted by: {author}</p>
-                <p className="to-end small">{new Date(timestamp).toLocaleString()}</p>
-            </div>
+            <Link to={location => ({ ...location, pathname: "/posts/" + id})} style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                <div className="post-header">
+                    <h3>{title}</h3>
+                    <p className="small faded cap">Topic: {category}</p>
+                </div>
+                <div className="post-content">
+                    <p>{body}</p>
+                    <div className="to-end">
+                        <p className="small">Posted by: {author}</p>
+                        <p className="small">{new Date(timestamp).toLocaleString()}</p>
+                    </div>
+                </div>
+            </Link>
             <div className="post-footer">
                 <div className="post-votes">
-                    <AiOutlineUpCircle size={25} />
-                    <AiOutlineDownCircle size={25} />
+                    <AiOutlineUpCircle onClick={() => dispatch(handlePostVote(id, 1))} className="clickable" size={25} />
+                    <AiOutlineDownCircle onClick={() => dispatch(handlePostVote(id, -1))} className="clickable" size={25} />
                     <div className="post-counters">{voteScore}</div>
                 </div>
                 <div className="post-comments">
-                    <AiOutlineMessage size={25} />
+                    <AiOutlineMessage onClick={handleNewComment} className="clickable" size={25} />
                     <div className="post-counters">{commentCount}</div>
                 </div>
             </div>
