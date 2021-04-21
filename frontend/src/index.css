@@ -218,3 +218,26 @@ body {
 	align-items: center;
 	padding: 0.25em 1em;
 }
+
+.top-icons {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 0.25em;
+}
+
+.top-icon {
+	margin: 0.1em 0.2em;
+}
+
+.centered-header {
+	text-align: center;
+	margin: 1.5em 1.5em 0.5em;
+}
+
+.nav {
+	padding: 1em;
+	margin: 0.2em 0;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}

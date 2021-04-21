@@ -34,7 +34,7 @@ const Home = () => {
             filtered = posts
         }
 
-        return filtered.sort((a,b) => b[order] - a[order])
+        return filtered.filter(p => !p.deleted).sort((a,b) => b[order] - a[order])
     })()
 
     if (loading) { return <Loading />}

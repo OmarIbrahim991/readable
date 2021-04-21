@@ -11,3 +11,7 @@ export const post = (resource, body) => (
     fetch(URL + resource, { headers, method: "POST", body: JSON.stringify(body), })
     .then(response => response.json())
 )
+
+export const remove = (resource) => (
+    fetch(URL + resource, { headers, method: "DELETE" })
+)

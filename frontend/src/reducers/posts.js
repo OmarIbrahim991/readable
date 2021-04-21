@@ -1,4 +1,4 @@
-import { CREATE_POST, UPDATE_POST } from "../actions/posts"
+import { CREATE_POST, DELETE_POST, UPDATE_POST } from "../actions/posts"
 import { CREATE_COMMENT } from "../actions/currentComments"
 import { LOAD_INITIAL_DATA } from '../actions/shared'
 
@@ -6,11 +6,15 @@ import { LOAD_INITIAL_DATA } from '../actions/shared'
 const posts = (state=[], action) => {
     switch (action.type) {
         case LOAD_INITIAL_DATA:
-            return action.posts
+            return action.posts 
         case CREATE_POST:
             return [...state, action.post]
         case UPDATE_POST:
             return state.filter(p => p.id !== action.post.id).concat(action.post)
+        case DELETE_POST:
+            const [postToDelete] = state.filter(p => p.id === action.id)
+            postToDelete.deleted = true
+            return state.filter(p => p.id !== action.id).concat(postToDelete)
         case CREATE_COMMENT:
             const [postToModify] = state.filter(p => p.id === action.comment.parentId)
             postToModify.commentCount += 1

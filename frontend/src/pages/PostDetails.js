@@ -1,7 +1,8 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { AiOutlineArrowLeft } from 'react-icons/ai'
 import { handleLoadCurrentComments } from '../actions/currentComments'
-import { handleLoadPost } from '../actions/posts'
 import Comment from '../components/Comment'
 import NewComment from '../components/NewComment'
 import Post from '../components/Post'
@@ -15,17 +16,22 @@ const PostDetails = ({ match }) => {
     const dispatch = useDispatch()
 
     React.useEffect(() => {
-        dispatch(handleLoadPost(id))
         dispatch(handleLoadCurrentComments(id))
     }, [dispatch, id])
 
     return (
         <div className="post-details">
+            <nav className="nav">
+                <Link to="/" style={{ color: "inherit", textDecoration: "inherit", display: "flex", alignItems: "center" }}>
+                    <AiOutlineArrowLeft className="top-icon clickable" size={35} />
+                    <h3>Home</h3>
+                </Link>
+            </nav>
             <Post setNewCommentVisibility={setNewCommentVisibility} {...postParams} />
             {
-                comments.length === 0 ? <h2>There are no comments on this post yet.</h2> :
+                comments.length === 0 ? <h2 className="centered-header">There are no comments on this post.</h2> :
                 <>
-                    <h2 style={{ textAlign: "center", margin: "1.5em 1.5em 0.5em" }}>Comments</h2>
+                    <h2 className="centered-header">Comments</h2>
                     <ul className="vertical comments">
                         {
                             comments.map((comment) => (

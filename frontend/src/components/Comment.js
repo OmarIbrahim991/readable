@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { AiOutlineUpCircle, AiOutlineDownCircle, AiOutlineStop } from 'react-icons/ai'
-import { handleCommentVote } from '../actions/currentComments'
+import { AiOutlineUpCircle, AiOutlineDownCircle, AiFillDelete, AiFillEdit } from 'react-icons/ai'
+import { handleCommentVote, handleDeleteComment } from '../actions/currentComments'
 
 
 const Comment = ({ id, timestamp, body, author, voteScore, deleted }) => {
@@ -10,7 +10,7 @@ const Comment = ({ id, timestamp, body, author, voteScore, deleted }) => {
     if (deleted) {
         return (
             <div className="comment">
-                <AiOutlineStop size={100} />
+                <AiFillDelete size={100} />
                 <h2>This comment is deleted</h2>
             </div>
         )
@@ -19,6 +19,10 @@ const Comment = ({ id, timestamp, body, author, voteScore, deleted }) => {
     return (
         <div className="comment">
             <div className="comment-content">
+                <div className="top-icons">
+                    <AiFillEdit size={20} className="top-icon clickable" onClick={() => console.log("clicked")} />
+                    <AiFillDelete size={20} className="top-icon clickable" onClick={() => dispatch(handleDeleteComment(id))} />
+                </div>
                 <h3>{author}: </h3>
                 <p>{body}</p>
                 <p className="small to-end">{new Date(timestamp).toLocaleString()}</p>

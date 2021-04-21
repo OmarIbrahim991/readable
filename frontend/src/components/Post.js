@@ -1,8 +1,8 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { AiOutlineMessage, AiOutlineUpCircle, AiOutlineDownCircle, AiOutlineStop } from 'react-icons/ai'
-import { handlePostVote } from '../actions/posts'
+import { AiOutlineMessage, AiOutlineUpCircle, AiOutlineDownCircle, AiFillDelete, AiFillEdit, AiOutlineStop } from 'react-icons/ai'
+import { handlePostVote, handleDeletePost } from '../actions/posts'
 
 
 const Post = ({ id, timestamp, title, body, author, category, voteScore,
@@ -15,10 +15,19 @@ const Post = ({ id, timestamp, title, body, author, category, voteScore,
         setNewCommentVisibility(true)
     }
 
+    if (!id) {
+        return (
+            <div className="post" style={{ alignItems: "center" }}>
+                <AiOutlineStop size={100} />
+                <h2>This post doesn't exist</h2>
+            </div>
+        )
+    }
+
     if (deleted) {
         return (
-            <div className="post">
-                <AiOutlineStop size={100} />
+            <div className="post" style={{ alignItems: "center" }}>
+                <AiFillDelete size={100} />
                 <h2>This post is deleted</h2>
             </div>
         )
@@ -26,7 +35,11 @@ const Post = ({ id, timestamp, title, body, author, category, voteScore,
 
     return (
         <div className="post">
-            <Link to={location => ({ ...location, pathname: "/posts/" + id})} style={{ color: 'inherit', textDecoration: 'inherit'}}>
+            <div className="top-icons">
+                <AiFillEdit size={20} className="top-icon clickable" onClick={() => console.log("clicked")} />
+                <AiFillDelete size={20} className="top-icon clickable" onClick={() => dispatch(handleDeletePost(id))} />
+            </div>
+            <Link to={location => ({ ...location, pathname: "/posts/" + id})} style={{ color: "inherit", textDecoration: "inherit" }}>
                 <div className="post-header">
                     <h3>{title}</h3>
                     <p className="small faded cap">Topic: {category}</p>

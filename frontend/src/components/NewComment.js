@@ -32,6 +32,8 @@ const NewComment = ({ visible, setVisibility, parentId }) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         dispatch(handleCreateComment({ author, body, parentId }))
+        setAuthor("")
+        setBody("")
         closePopup(e)
     }
 
