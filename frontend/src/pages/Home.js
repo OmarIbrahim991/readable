@@ -1,6 +1,5 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { handleLoadInitialData } from '../actions/shared'
+import { useSelector } from 'react-redux'
 import Post from '../components/Post'
 import Header from '../components/Header'
 import NewPost from '../components/NewPost'
@@ -11,17 +10,12 @@ import NewComment from '../components/NewComment'
 const Home = () => {
 	const categories = useSelector(state => state.categories)
     const posts = useSelector(state => state.posts)
-	const dispatch = useDispatch()
 
     const [category, selectCategory] = React.useState("all")
     const [order, selectOrder] = React.useState("timestamp")
     const [newPostVisibility, setNewPostVisibility] = React.useState(false)
     const [newCommentVisibility, setNewCommentVisibility] = React.useState(false)
     const [currentId, setCurrentId] = React.useState("")
-
-    React.useEffect(() => {
-        dispatch(handleLoadInitialData())
-	}, [dispatch])
 
     const sortedFilteredPosts = (() => {
         let filtered

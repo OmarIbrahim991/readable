@@ -12,7 +12,7 @@ const posts = (state=[], action) => {
         case CREATE_POST:
             return [...state, action.post]
         case UPDATE_POST:
-            return state.filter(p => p.id !== action.post.id).concat(action.post)
+            return state.map(p => p.id === action.post.id ? { ...p, ...action.post } : p)
         case DELETE_POST:
             const [postToDelete] = state.filter(p => p.id === action.id)
             postToDelete.deleted = true

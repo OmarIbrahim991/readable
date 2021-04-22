@@ -38,7 +38,6 @@ const NewPost = ({ categories, visible, setVisibility }) => {
 
     return (
         <div className={"new-popup " + (visible ? "visible" : "invisible")}>
-            
             <form className="popup-form">
                 <h1 className="close-icon clickable" onClick={closePopup}>X</h1>
                 <h1>Create New Post</h1>

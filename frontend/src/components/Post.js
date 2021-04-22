@@ -36,7 +36,9 @@ const Post = ({ id, timestamp, title, body, author, category, voteScore,
     return (
         <div className="post">
             <div className="top-icons">
-                <AiFillEdit size={20} className="top-icon clickable" onClick={() => console.log("clicked")} />
+                <Link to={"/editpost/" + id} style={{ color: "inherit", textDecoration: "inherit" }}>
+                    <AiFillEdit size={20} className="top-icon clickable" onClick={() => console.log("clicked")} />
+                </Link>
                 <AiFillDelete size={20} className="top-icon clickable" onClick={() => dispatch(handleDeletePost(id))} />
             </div>
             <Link to={location => ({ ...location, pathname: "/posts/" + id})} style={{ color: "inherit", textDecoration: "inherit" }}>

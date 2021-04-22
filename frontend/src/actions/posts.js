@@ -46,5 +46,10 @@ export const handlePostVote = (id, value) => (dispatch) => {
 
 export const handleDeletePost = (id) => (dispatch) => {
     API.remove("/posts/" + id)
-    .then(response => response.ok && dispatch(deletePost(id)))
+    .then(resp => resp.ok && dispatch(deletePost(id)))
+}
+
+export const handleEditPost = ({ id, title, body }) => (dispatch) => {
+    API.put("/posts/" + id, { title, body, })
+    .then(resp => resp.ok && dispatch(updatePost({ id, title, body })))
 }
