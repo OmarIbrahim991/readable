@@ -4,11 +4,11 @@ import { useParams, Link } from 'react-router-dom'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import { handleLoadInitialData } from '../actions/shared'
 import { handleEditPost } from '../actions/posts'
-import Button from './Button'
-import Input from './Input'
+import Button from '../components/Button'
+import Input from '../components/Input'
 
 
-const EditPost = () => {
+const EditPost = ({ history }) => {
     const { id } = useParams()
     const post = useSelector(state => state.posts.filter(p => p.id === id)[0])
 
@@ -20,6 +20,7 @@ const EditPost = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         dispatch(handleEditPost({ id, title, body }))
+        history.push("/")
     }
 
     const isDisabled = () => post.author.length === 0 || title.length === 0 || body.length === 0 || post.category.length === 0

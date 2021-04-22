@@ -2,8 +2,8 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { handleLoadInitialData } from './actions/shared'
-import EditPost from './components/EditPost'
 import Home from './pages/Home'
+import EditPost from './pages/EditPost'
 import PostDetails from './pages/PostDetails'
 
 
