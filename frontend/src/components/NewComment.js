@@ -1,11 +1,13 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { handleCreateComment } from '../actions/currentComments'
+import { handleCreateComment, handleEditComment } from '../actions/currentComments'
 import Button from './Button'
 import Input from './Input'
 
 
-const NewComment = ({ visible, setVisibility, parentId }) => {
+const NewComment = ({ visible, setVisibility, parentId, defaultId="", setDefaultId,
+    defaultAuthor="", defaultBody="", setDefaultAuthor, setDefaultBody }) => {
+
     const [parentPost] = useSelector(state => state.posts.filter(p => p.id === parentId) || null)
     const [author, setAuthor] = React.useState("")
     const [body, setBody] = React.useState("")
@@ -15,15 +17,24 @@ const NewComment = ({ visible, setVisibility, parentId }) => {
         if (visible === true) {
             document.body.classList.add("blacked")
             document.querySelectorAll(".header select").forEach(s => s.classList.add("blacked"))
+            if (defaultAuthor || defaultBody) {
+                setAuthor(defaultAuthor)
+                setBody(defaultBody)
+            }
         }
         else {
             document.body.classList.remove("blacked")
             document.querySelectorAll(".header select").forEach(s => s.classList.remove("blacked"))
         }
-    }, [visible])
+    }, [visible, defaultAuthor, defaultBody])
 
     const closePopup = (e) => {
         e.preventDefault()
+        setDefaultId && setDefaultId("")
+        setDefaultAuthor && setDefaultAuthor("")
+        setDefaultBody && setDefaultBody("")
+        setAuthor("")
+        setBody("")
         setVisibility(false)
     }
 
@@ -31,7 +42,11 @@ const NewComment = ({ visible, setVisibility, parentId }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        dispatch(handleCreateComment({ author, body, parentId }))
+        if (defaultId !== "") { dispatch(handleEditComment({ id: defaultId, body, })) }
+        else { dispatch(handleCreateComment({ author, body, parentId })) }
+        setDefaultId && setDefaultId("")
+        setDefaultAuthor && setDefaultAuthor("")
+        setDefaultBody && setDefaultBody("")
         setAuthor("")
         setBody("")
         closePopup(e)
@@ -41,8 +56,8 @@ const NewComment = ({ visible, setVisibility, parentId }) => {
         <div className={"new-popup " + (visible ? "visible" : "invisible")}>
             <form className="popup-form">
                 <h1 className="close-icon clickable" onClick={closePopup}>X</h1>
-                {parentPost && <h2>Reply to '{parentPost.author}'</h2>}
-                <Input text={author} setText={setAuthor} type="text" label="Author: " placeholder="Author" />
+                {parentPost && <h2>{defaultId === "" ? `Reply to '${parentPost.author}'` : `Edit comment`}</h2>}
+                <Input text={author} setText={setAuthor} type="text" label="Author: " placeholder="Author" disabled={defaultAuthor !== ""} />
                 <Input text={body} setText={setBody} type="text" label="Body: " placeholder="Body" />
                 <div>
                     <Button onClick={closePopup}>Cancel</Button>

@@ -1,7 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { handleLoadInitialData } from '../actions/shared'
-import Loading from './Loading'
 import Post from '../components/Post'
 import Header from '../components/Header'
 import NewPost from '../components/NewPost'
@@ -12,7 +11,6 @@ import NewComment from '../components/NewComment'
 const Home = () => {
 	const categories = useSelector(state => state.categories)
     const posts = useSelector(state => state.posts)
-    const loading = useSelector(state => state.loading)
 	const dispatch = useDispatch()
 
     const [category, selectCategory] = React.useState("all")
@@ -37,7 +35,6 @@ const Home = () => {
         return filtered.filter(p => !p.deleted).sort((a,b) => b[order] - a[order])
     })()
 
-    if (loading) { return <Loading />}
     return(
         <div className="container">
             <Header
@@ -49,7 +46,7 @@ const Home = () => {
             />
             <ul className="vertical">
                 {
-                    sortedFilteredPosts.map((post) => (
+                    sortedFilteredPosts.length > 0 && sortedFilteredPosts.map((post) => (
                         <Post
                             key={post.id}
                             setCurrentId={setCurrentId}

@@ -48,3 +48,8 @@ export const handleDeleteComment = (id) => (dispatch) => {
     API.remove("/comments/" + id)
     .then(resp => resp.ok && dispatch(deleteComment(id)))
 }
+
+export const handleEditComment = ({ id, body }) => (dispatch) => {
+    API.put("/comments/" + id, { body, timestamp: getTimeStamp() })
+    .then(resp => resp.ok && dispatch(updateComment({ id, body })))
+}

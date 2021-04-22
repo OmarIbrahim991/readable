@@ -1,11 +1,16 @@
 import * as API from '../utils/api'
 import { generateID, getTimeStamp } from '../utils/helpers'
-import { setLoading } from './loading'
 
 
+export const LOAD_POST = "LOAD_POST"
 export const CREATE_POST = "CREATE_POST"
 export const UPDATE_POST = "UPDATE_POST"
 export const DELETE_POST = "DELETE_POST"
+
+const loadPost = (post) => ({
+    type: LOAD_POST,
+    post,
+})
 
 const createPost = (post) => ({
     type: CREATE_POST,
@@ -22,8 +27,11 @@ const deletePost = (id) => ({
     id,
 })
 
+export const handleLoadPost = (id) => (dispatch) => {
+    API.get("/posts/" + id).then(post => dispatch(loadPost(post)))
+}
+
 export const handleCreatePost = (params) => (dispatch) => {
-    dispatch(setLoading())
     const id = generateID()
     const timestamp = getTimeStamp()
 

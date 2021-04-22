@@ -7,7 +7,7 @@ const currentComments = (state=[], action) => {
         case LOAD_CURRENT_COMMENTS:
             return action.currentComments
         case UPDATE_COMMENT:
-            return state.filter(c => c.id !== action.comment.id).concat(action.comment)
+            return state.map(c => c.id === action.comment.id ? {...c, ...action.comment } : c)
         case CREATE_COMMENT:
             return [...state, action.comment]
         case DELETE_POST:

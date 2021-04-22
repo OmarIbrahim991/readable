@@ -4,7 +4,7 @@ import { AiOutlineUpCircle, AiOutlineDownCircle, AiFillDelete, AiFillEdit } from
 import { handleCommentVote, handleDeleteComment } from '../actions/currentComments'
 
 
-const Comment = ({ id, timestamp, body, author, voteScore, deleted }) => {
+const Comment = ({ id, timestamp, body, author, voteScore, deleted, handleCommentEdit }) => {
     const dispatch = useDispatch()
 
     if (deleted) {
@@ -20,7 +20,7 @@ const Comment = ({ id, timestamp, body, author, voteScore, deleted }) => {
         <div className="comment">
             <div className="comment-content">
                 <div className="top-icons">
-                    <AiFillEdit size={20} className="top-icon clickable" onClick={() => console.log("clicked")} />
+                    <AiFillEdit size={20} className="top-icon clickable" onClick={() => handleCommentEdit({ commentId: id, author, body })} />
                     <AiFillDelete size={20} className="top-icon clickable" onClick={() => dispatch(handleDeleteComment(id))} />
                 </div>
                 <h3>{author}: </h3>

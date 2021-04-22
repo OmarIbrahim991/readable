@@ -1,4 +1,4 @@
-import { CREATE_POST, DELETE_POST, UPDATE_POST } from "../actions/posts"
+import { CREATE_POST, DELETE_POST, LOAD_POST, UPDATE_POST } from "../actions/posts"
 import { CREATE_COMMENT } from "../actions/currentComments"
 import { LOAD_INITIAL_DATA } from '../actions/shared'
 
@@ -7,6 +7,8 @@ const posts = (state=[], action) => {
     switch (action.type) {
         case LOAD_INITIAL_DATA:
             return action.posts 
+        case LOAD_POST:
+            return state.filter(p => p.id !== action.post.id).concat(action.post)
         case CREATE_POST:
             return [...state, action.post]
         case UPDATE_POST:
